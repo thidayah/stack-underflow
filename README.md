@@ -1,50 +1,114 @@
-# Welcome to your Expo app 👋
+# 📱 Stack Underflow (React Native)
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+**Stack Underflow** is a lightweight Q&A mobile application built with **React Native (Expo)**, inspired by Stack Overflow.  
+The app runs entirely on the frontend with **no backend**, and all data is stored in memory during runtime.
 
-## Get started
+---
 
-1. Install dependencies
+## ▶️ Getting Started
 
-   ```bash
-   npm install
-   ```
-
-2. Start the app
-
-   ```bash
-   npx expo start
-   ```
-
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
+### 1. Install dependencies
 
 ```bash
-npm run reset-project
+yarn install
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+### 2. Start the development server
 
-## Learn more
+```bash
+yarn start
+```
 
-To learn more about developing your project with Expo, look at the following resources:
+Then open the app using:
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+- Expo Go on a physical device, or
+- Android Emulator / iOS Simulator
 
-## Join the community
+---
 
-Join our community of developers creating universal apps.
+## ✨ Features
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+### 🔐 Mock Login
+
+- Users can log in using **any username and password**
+- No real authentication or backend integration
+- Login state is stored in global state and resets when the app reloads
+
+### ❓ Questions
+
+Users can:
+
+- View a list of questions
+- Create a new question
+- View question details
+- Change the status of their own questions (`open`, `answered`, `closed`)
+
+### 💬 Comments
+
+Users can:
+
+- Add a comment
+- Edit their own comments
+
+All updates reflect immediately in the UI without reloading the app.
+
+---
+
+## 🧱 Architecture & Approach
+
+### 🧠 State Management
+
+The app uses **React Context + useReducer** for global state management.
+
+Global state stores:
+
+- The currently logged-in user
+- The list of questions and their comments
+
+This approach was chosen because:
+
+- No additional libraries are required
+- It is suitable for small to medium-sized apps
+- It provides clear and centralized state update logic (login, add question, add/edit comment, etc.)
+
+### 🧭 Navigation
+
+Navigation is handled using **Expo Router** with file-based routing.
+
+Main structure:
+
+```
+app/
+├── index.tsx           → Login Screen
+├── questions/
+│ ├── index.tsx         → Question List Screen
+│ ├── ask.tsx           → Ask Question Screen
+│ └── [id].tsx          → Question Detail & Comments
+└── _layout.tsx         → Root layout + Context Provider
+```
+
+Additional Folder Structure
+
+```
+context/
+├── AppContext.tsx
+└── appReducer.ts
+```
+
+This context layer acts as an in-memory data store since the app does not use a backend.
+
+---
+
+### 📦 Main Libraries Used
+
+- **React Native (Expo)**
+- **Expo Router** – File-based navigation
+- **React Context + useReducer** – Global state management
+- **moment** - Date and time formatter
+
+### ⚠️ Assumptions & Limitations
+
+- No backend or persistent storage is used
+- All data is lost when the app reloads or is force closed
+- Input validation is minimal
+- Delete functionality for questions/comments is not implemented (focus is on core required features)
